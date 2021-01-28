@@ -47,6 +47,10 @@ import org.springframework.data.repository.Repository;
  * @author Stephane Nicoll
  * @author Andy Wilkinson
  * @since 1.2.0
+ *
+ * 表示一个{@link Configuration configuration}类，该类声明一个或多个{@link Bean @Bean}方法，
+ * 并且还触发{@link EnableAutoConfiguration auto-configuration}和{@link ComponentScan component scanning}。
+ * 这是一个方便的注释，等效于声明这三个注解 {@code @Configuration}，{@code @EnableAutoConfiguration}和{@code @ComponentScan}。
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -60,15 +64,18 @@ public @interface SpringBootApplication {
 
 	/**
 	 * Exclude specific auto-configuration classes such that they will never be applied.
+	 * 排除特定的自动配置类，使其永远不会应用
 	 * @return the classes to exclude
+	 * 返回排除的类
 	 */
 	@AliasFor(annotation = EnableAutoConfiguration.class)
 	Class<?>[] exclude() default {};
 
 	/**
-	 * Exclude specific auto-configuration class names such that they will never be
-	 * applied.
+	 * Exclude specific auto-configuration class names such that they will never be applied.
+	 * 排除特定的自动配置类名称，使其永远不会应用
 	 * @return the class names to exclude
+	 * 返回排除的类名
 	 * @since 1.3.0
 	 */
 	@AliasFor(annotation = EnableAutoConfiguration.class)
@@ -85,6 +92,13 @@ public @interface SpringBootApplication {
 	 * {@code @Enable...Repositories} annotations.
 	 * @return base packages to scan
 	 * @since 1.3.0
+	 *
+	 *
+	 * 扫描注解的基础包。使用{@link #scanBasePackageClasses}作为基于字符串的软件包名称的类型安全替代。
+	 * <p> <strong>注意：<strong>
+	 * 此设置仅是{@link ComponentScan @ComponentScan}的别名。它对{@code @Entity}扫描或Spring Data {@link Repository}扫描没有影响。
+	 * 对于这些，您应该添加{@link org.springframework.boot.autoconfigure.domain.EntityScan @EntityScan}和{@code @Enable ... Repositories}注解。
+	 * 返回要扫描的基本包
 	 */
 	@AliasFor(annotation = ComponentScan.class, attribute = "basePackages")
 	String[] scanBasePackages() default {};
@@ -143,7 +157,7 @@ public @interface SpringBootApplication {
 	 * "@Bean Lite Mode" (see {@link Bean @Bean's javadoc}). It is therefore behaviorally
 	 * equivalent to removing the {@code @Configuration} stereotype.
 	 * @since 2.2
-	 * @return whether to proxy {@code @Bean} methods
+	 * @return whether to proxy {@code @Bean} methods   是否代理{@code @Bean}方法
 	 */
 	@AliasFor(annotation = Configuration.class)
 	boolean proxyBeanMethods() default true;
